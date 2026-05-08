@@ -4,73 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMAGO | Producción Audiovisual</title>
-    <!-- Optimización de carga: Preconectar fuentes externas -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root{--dark:#0b0f1a;--accent:#3498db;--text:#f8fafc;--gray:#94a3b8}*{box-sizing:border-box}body{font-family:'Inter',sans-serif;margin:0;background-color:var(--dark);color:var(--text);scroll-behavior:smooth;overflow-x:hidden}
-        /* Hero optimizado con filtro de color para legibilidad */
-        .hero{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(rgba(11,15,26,0.8),rgba(11,15,26,0.8)),url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=60&w=1200');background-size:cover;background-position:center;padding:20px}
-        .hero h1{font-size:clamp(3rem,10vw,5rem);margin:0;letter-spacing:8px;text-transform:uppercase;font-weight:900;text-shadow:0 10px 20px rgba(0,0,0,0.5)}
-        .hero p{font-size:1.1rem;max-width:600px;color:var(--gray);margin:25px 0;line-height:1.6}
-        .btn{background-color:var(--accent);color:#fff;padding:18px 35px;text-decoration:none;border-radius:50px;font-weight:700;transition:all .3s ease;display:inline-flex;align-items:center;gap:10px;box-shadow:0 4px 15px rgba(52,152,219,0.3)}
-        .btn:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(52,152,219,0.5);background-color:#2980b9}
-        .services{padding:100px 20px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px}
-        .card{background:rgba(255,255,255,0.03);padding:40px;border-radius:20px;border:1px solid rgba(255,255,255,0.05);text-align:center;transition:border .3s ease}
-        .card:hover{border-color:var(--accent)}
-        .card i{font-size:2.5rem;color:var(--accent);margin-bottom:20px;display:block}
-        .card h3{margin:10px 0;font-size:1.4rem}
-        .card p{color:var(--gray);font-size:0.95rem;line-height:1.5}
-        footer{padding:60px 20px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);background:rgba(0,0,0,0.2)}
-        footer p{margin:5px 0;font-size:0.9rem;color:var(--gray)}
-        @media (max-width:768px){.hero h1{letter-spacing:4px}.services{padding:60px 20px}}
+        :root {
+            --dark: #0f172a;
+            --accent: #3498db;
+            --text: #f8fafc;
+            --gray: #64748b;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            margin: 0;
+            background-color: var(--dark);
+            color: var(--text);
+            scroll-behavior: smooth;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
+                        url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin: 0;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            color: #cbd5e1;
+            margin: 20px 0;
+        }
+
+        /* Botón de Acción */
+        .btn {
+            background-color: var(--accent);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: #2980b9;
+        }
+
+        /* Servicios */
+        .services {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+        }
     </style>
 </head>
-<body oncontextmenu="return false;"> <!-- Restricción de clic derecho -->
+<body>
 
     <section class="hero">
         <h1>IMAGO</h1>
         <p>Transformamos eventos en experiencias memorables. Somos tu mano derecha en la producción y entretenimiento de tu público.</p>
-        <!-- Enlace de WhatsApp con mensaje semi-formal optimizado -->
+        
+        <!-- Botón con el mensaje preconfigurado -->
         <a href="https://wa.me/525588052053?text=Hola,%20IMAGO.%20Me%20gustaría%20recibir%20información%20sobre%20sus%20servicios%20audiovisuales%20para%20un%20próximo%20evento.%20¿Podrían%20asesorarme?%20Muchas%20gracias." class="btn">
             <i class="fab fa-whatsapp"></i> Solicitar Información
         </a>
     </section>
 
-    <section id="servicios" class="services">
+    <section class="services">
         <div class="card">
-            <i class="fas fa-video"></i>
+            <i class="fas fa-camera-retro"></i>
             <h3>Cobertura Visual</h3>
-            <p>Captura de momentos clave con calidad cinematográfica y edición profesional.</p>
+            <p>Capturamos cada detalle con equipo de alta fidelidad.</p>
         </div>
         <div class="card">
-            <i class="fas fa-volume-up"></i>
+            <i class="fas fa-microphone-lines"></i>
             <h3>Sonorización</h3>
-            <p>Audio de alta fidelidad y gestión técnica para eventos de cualquier escala.</p>
+            <p>Audio profesional para que tu mensaje llegue con claridad.</p>
         </div>
         <div class="card">
-            <i class="fas fa-bolt"></i>
+            <i class="fas fa-lightbulb"></i>
             <h3>Iluminación</h3>
-            <p>Diseño de atmósferas envolventes mediante sistemas LED avanzados.</p>
+            <p>Ambientación creativa adaptada a la atmósfera de tu evento.</p>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 IMAGO Audiovisuales</p>
-        <p>México | Servicio Profesional</p>
-        <p><i class="far fa-envelope"></i> imago.audiovisuales@gmail.com</p>
+        <p>&copy; 2026 IMAGO Audiovisuales | México</p>
+        <p>imago.audiovisuales@gmail.com</p>
     </footer>
 
-    <!-- Script de protección adicional y carga perezosa -->
-    <script>
-        // Protección simple contra copiado de teclado
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123) return false;
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-        };
-    </script>
 </body>
 </html>
