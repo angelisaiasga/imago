@@ -3,192 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMAGO - Magia Audiovisual</title>
+    <title>IMAGO | Producción Audiovisual</title>
+    <!-- Optimización de carga: Preconectar fuentes externas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --primary-bg: #0a0a0a;
-            --neon-blue: #00d2ff;
-            --neon-purple: #9d50bb;
-            --text-light: #f0f0f0;
-            /* Colores de los brillos mágicos */
-            --magic-glitter-1: rgba(0, 210, 255, 0.9);
-            --magic-glitter-2: rgba(157, 80, 187, 0.9);
-        }
-
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #121212;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: var(--text-light);
-            /* Evita selección para parecer App */
-            user-select: none; 
-            -webkit-user-select: none;
-            overflow-x: hidden;
-        }
-
-        .card {
-            background: var(--primary-bg);
-            width: 90%;
-            max-width: 420px;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 210, 255, 0.15);
-            border: 1px solid #333;
-            text-align: center;
-            transition: box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 210, 255, 0.25);
-        }
-
-        .header-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            display: block;
-            border-bottom: 3px solid var(--neon-blue);
-            pointer-events: none;
-        }
-
-        .logo-container {
-            margin-top: -55px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .logo-img {
-            width: 110px;
-            height: 110px;
-            background: #000;
-            border: 4px solid var(--neon-blue);
-            border-radius: 50%;
-            padding: 5px;
-            box-shadow: 0 0 20px var(--neon-blue);
-            object-fit: contain;
-            pointer-events: none;
-        }
-
-        .brand-section { padding: 20px 30px; }
-
-        .brand-name {
-            font-size: 2.6em;
-            font-weight: 900;
-            letter-spacing: 5px;
-            margin: 15px 0 5px;
-            background: linear-gradient(to right, var(--neon-blue), var(--neon-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-        }
-
-        .tagline {
-            font-size: 0.9em;
-            color: var(--neon-blue);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
-
-        .menu-list { list-style: none; padding: 0; margin: 0; }
-
-        .menu-link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.06);
-            margin-bottom: 12px;
-            padding: 16px 20px;
-            border-radius: 15px;
-            text-decoration: none;
-            color: white;
-            border-left: 4px solid var(--neon-purple);
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s ease;
-        }
-
-        /* EFECTO DE BRILLOS CONFINADO A BOTONES */
-        .menu-link::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                radial-gradient(circle at 10% 20%, var(--magic-glitter-1) 1.5px, transparent 1.5px),
-                radial-gradient(circle at 80% 40%, var(--magic-glitter-2) 2px, transparent 2px),
-                radial-gradient(circle at 30% 70%, var(--magic-glitter-1) 1px, transparent 1px);
-            background-size: 60px 60px;
-            opacity: 0;
-            z-index: 1;
-            transition: opacity 0.4s ease;
-        }
-
-        .menu-link:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-left-color: var(--neon-blue);
-            transform: scale(1.03);
-        }
-
-        .menu-link:hover::before {
-            opacity: 1;
-            animation: twinkling 1.5s linear infinite;
-        }
-
-        @keyframes twinkling {
-            from { background-position: 0 0; }
-            to { background-position: 60px 60px; }
-        }
-
-        .menu-link span { position: relative; z-index: 2; }
-        .footer { padding: 20px 30px 40px; font-size: 0.8em; opacity: 0.4; letter-spacing: 1px;}
-
+        :root{--dark:#0b0f1a;--accent:#3498db;--text:#f8fafc;--gray:#94a3b8}*{box-sizing:border-box}body{font-family:'Inter',sans-serif;margin:0;background-color:var(--dark);color:var(--text);scroll-behavior:smooth;overflow-x:hidden}
+        /* Hero optimizado con filtro de color para legibilidad */
+        .hero{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(rgba(11,15,26,0.8),rgba(11,15,26,0.8)),url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=60&w=1200');background-size:cover;background-position:center;padding:20px}
+        .hero h1{font-size:clamp(3rem,10vw,5rem);margin:0;letter-spacing:8px;text-transform:uppercase;font-weight:900;text-shadow:0 10px 20px rgba(0,0,0,0.5)}
+        .hero p{font-size:1.1rem;max-width:600px;color:var(--gray);margin:25px 0;line-height:1.6}
+        .btn{background-color:var(--accent);color:#fff;padding:18px 35px;text-decoration:none;border-radius:50px;font-weight:700;transition:all .3s ease;display:inline-flex;align-items:center;gap:10px;box-shadow:0 4px 15px rgba(52,152,219,0.3)}
+        .btn:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(52,152,219,0.5);background-color:#2980b9}
+        .services{padding:100px 20px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px}
+        .card{background:rgba(255,255,255,0.03);padding:40px;border-radius:20px;border:1px solid rgba(255,255,255,0.05);text-align:center;transition:border .3s ease}
+        .card:hover{border-color:var(--accent)}
+        .card i{font-size:2.5rem;color:var(--accent);margin-bottom:20px;display:block}
+        .card h3{margin:10px 0;font-size:1.4rem}
+        .card p{color:var(--gray);font-size:0.95rem;line-height:1.5}
+        footer{padding:60px 20px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);background:rgba(0,0,0,0.2)}
+        footer p{margin:5px 0;font-size:0.9rem;color:var(--gray)}
+        @media (max-width:768px){.hero h1{letter-spacing:4px}.services{padding:60px 20px}}
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body oncontextmenu="return false;"> <!-- Restricción de clic derecho -->
 
-<div class="card">
-    <img src="Encabezado.png" alt="Encabezado IMAGO" class="header-img">
-    <div class="logo-container">
-        <img src="Logo.png" alt="Logo IMAGO" class="logo-img">
-    </div>
+    <section class="hero">
+        <h1>IMAGO</h1>
+        <p>Transformamos eventos en experiencias memorables. Somos tu mano derecha en la producción y entretenimiento de tu público.</p>
+        <!-- Enlace de WhatsApp con mensaje semi-formal optimizado -->
+        <a href="https://wa.me/525588052053?text=Hola,%20IMAGO.%20Me%20gustaría%20recibir%20información%20sobre%20sus%20servicios%20audiovisuales%20para%20un%20próximo%20evento.%20¿Podrían%20asesorarme?%20Muchas%20gracias." class="btn">
+            <i class="fab fa-whatsapp"></i> Solicitar Información
+        </a>
+    </section>
 
-    <div class="brand-section">
-        <h1 class="brand-name">IMAGO</h1>
-        <div class="tagline">Magia Audiovisual</div>
-        
-        <div class="menu-list">
-            <a href="#" class="menu-link">
-                <span>📘 Ve nuestro trabajo en Facebook</span>
-                <span>▶</span>
-            </a>
-            <a href="#" class="menu-link">
-                <span>📸 Ve nuestro trabajo en Instagram</span>
-                <span>▶</span>
-            </a>
-            <a href="https://wa.me/528671132858" class="menu-link" style="border-left-color: #25D366;">
-                <span>💬 Contáctanos vía WhatsApp</span>
-                <span>▶</span>
-            </a>
+    <section id="servicios" class="services">
+        <div class="card">
+            <i class="fas fa-video"></i>
+            <h3>Cobertura Visual</h3>
+            <p>Captura de momentos clave con calidad cinematográfica y edición profesional.</p>
         </div>
-    </div>
+        <div class="card">
+            <i class="fas fa-volume-up"></i>
+            <h3>Sonorización</h3>
+            <p>Audio de alta fidelidad y gestión técnica para eventos de cualquier escala.</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-bolt"></i>
+            <h3>Iluminación</h3>
+            <p>Diseño de atmósferas envolventes mediante sistemas LED avanzados.</p>
+        </div>
+    </section>
 
-    <div class="footer">© 2026 IMAGO AUDIOVISUALES</div>
-</div>
+    <footer>
+        <p>&copy; 2026 IMAGO Audiovisuales</p>
+        <p>México | Servicio Profesional</p>
+        <p><i class="far fa-envelope"></i> imago.audiovisuales@gmail.com</p>
+    </footer>
 
-<script>
-    // Bloqueo de teclas de desarrollo (F12, Ctrl+U, etc.)
-    document.onkeydown = function(e) {
-        if(e.keyCode == 123) return false;
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-    }
-</script>
-
+    <!-- Script de protección adicional y carga perezosa -->
+    <script>
+        // Protección simple contra copiado de teclado
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+        };
+    </script>
 </body>
 </html>
