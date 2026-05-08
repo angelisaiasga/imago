@@ -38,6 +38,8 @@
             border: 1px solid #333;
             text-align: center;
             transition: box-shadow 0.3s ease;
+            /* Optimización de renderizado */
+            contain: content;
         }
 
         .card:hover {
@@ -51,6 +53,8 @@
             display: block;
             border-bottom: 3px solid var(--neon-blue);
             pointer-events: none;
+            /* Evita el parpadeo durante la carga */
+            background-color: #1a1a1a;
         }
 
         .logo-container {
@@ -150,9 +154,12 @@
 <body oncontextmenu="return false;">
 
 <div class="card">
-    <img src="Encabezado.png" alt="Encabezado IMAGO" class="header-img">
+    <!-- Optimización: fetchpriority="high" para cargar el encabezado primero -->
+    <img src="Encabezado.png" alt="Encabezado IMAGO" class="header-img" fetchpriority="high" loading="eager">
+    
     <div class="logo-container">
-        <img src="Logo.png" alt="Logo IMAGO" class="logo-img">
+        <!-- Optimización: loading="lazy" para el logo (se carga después del encabezado) -->
+        <img src="Logo.png" alt="Logo IMAGO" class="logo-img" loading="lazy">
     </div>
 
     <div class="brand-section">
@@ -168,7 +175,7 @@
                 <span>📸 Ve nuestro trabajo en Instagram</span>
                 <span>▶</span>
             </a>
-            <!-- Botón de WhatsApp con mensaje personalizado sutil -->
+            <!-- WhatsApp con mensaje sutil y número original corregido -->
             <a href="https://wa.me/528671132858?text=Hola%2C%20me%20gustar%C3%ADa%20conocer%20m%C3%A1s%20sobre%20sus%20servicios%20audiovisuales.%20%C2%BFPodr%C3%ADan%20darme%20informaci%C3%B3n%3F%20Gracias." class="menu-link" style="border-left-color: #25D366;">
                 <span>💬 Contáctanos vía WhatsApp</span>
                 <span>▶</span>
