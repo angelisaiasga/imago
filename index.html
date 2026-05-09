@@ -10,6 +10,7 @@
             --neon-blue: #00d2ff;
             --neon-purple: #9d50bb;
             --text-light: #f0f0f0;
+            --glass-text: rgba(240, 240, 240, 0.7);
         }
 
         body {
@@ -59,7 +60,7 @@
             position: relative;
             z-index: 1;
             backdrop-filter: blur(10px);
-            margin: 20px 0 120px 0; /* Espacio para el Dock en móvil */
+            margin: 20px 0 120px 0; 
         }
 
         .header-img { width: 100%; height: 150px; object-fit: cover; border-bottom: 3px solid var(--neon-blue); }
@@ -68,84 +69,66 @@
 
         .brand-name { font-size: 2.2em; font-weight: 900; letter-spacing: 5px; background: linear-gradient(to right, var(--neon-blue), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin: 15px 0 10px; }
 
-        .services-container { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; padding: 0 10px; }
-        .service-chip { font-size: 0.65em; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--neon-purple); background: rgba(157, 80, 187, 0.2); box-shadow: 0 0 10px rgba(157, 80, 187, 0.3); color: #fff; letter-spacing: 1px; }
+        .services-container { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; padding: 0 10px; }
+        .service-chip { 
+            font-size: 0.65em; 
+            padding: 5px 12px; 
+            border-radius: 20px; 
+            border: 1px solid var(--neon-purple); 
+            background: rgba(157, 80, 187, 0.2); 
+            box-shadow: 0 0 10px rgba(157, 80, 187, 0.3); 
+            color: #fff; 
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* --- DESCRIPCIÓN BREVE --- */
+        .description-text {
+            font-size: 0.85em;
+            line-height: 1.5;
+            color: var(--glass-text);
+            padding: 0 35px;
+            margin-bottom: 25px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .description-text strong {
+            color: var(--neon-blue);
+            font-weight: 500;
+        }
 
         /* --- GALERÍA HEXAGONAL --- */
-        .gallery-container { padding: 20px 10px 60px; display: flex; flex-wrap: wrap; justify-content: center; max-width: 350px; margin: 0 auto; }
+        .gallery-container { padding: 0 10px 60px; display: flex; flex-wrap: wrap; justify-content: center; max-width: 350px; margin: 0 auto; }
         .hexagon { width: 90px; height: 100px; position: relative; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); margin: -10px 2px; transition: 0.4s; cursor: pointer; background: #222; z-index: 1; }
         .hexagon img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(60%) brightness(0.7); transition: 0.4s ease; }
         .hexagon:nth-child(3n+2) { transform: translateY(50px); }
         .hexagon:hover { transform: scale(1.1); z-index: 50; filter: drop-shadow(0 0 15px var(--neon-blue)); }
         .hexagon:hover img { filter: grayscale(0%) brightness(1.1); }
 
-        /* --- SISTEMA DOCK MÁGICO (DESKTOP & MÓVIL) --- */
-        .floating-magic-bar { 
-            position: fixed; 
-            z-index: 2000; 
-            display: flex;
-            transition: all 0.4s ease;
-        }
+        /* --- SISTEMA DOCK MÁGICO ADAPTATIVO --- */
+        .floating-magic-bar { position: fixed; z-index: 2000; display: flex; transition: all 0.4s ease; }
 
-        /* Escritorio: Lado derecho vertical */
         @media (min-width: 769px) {
-            .floating-magic-bar {
-                bottom: 30px; 
-                right: 30px; 
-                flex-direction: column-reverse; 
-                gap: 20px; 
-            }
-            .tooltip {
-                position: absolute;
-                right: 85px;
-                opacity: 0;
-                transform: translateX(20px);
-            }
+            .floating-magic-bar { bottom: 30px; right: 30px; flex-direction: column-reverse; gap: 20px; }
+            .tooltip { position: absolute; right: 85px; opacity: 0; transform: translateX(20px); }
             .nav-item:hover .tooltip { opacity: 1; transform: translateX(0); }
         }
 
-        /* Móvil: Dock Horizontal con Plus Visual */
         @media (max-width: 768px) {
             .floating-magic-bar {
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: rgba(10, 10, 10, 0.8);
-                backdrop-filter: blur(20px);
-                padding: 10px 25px;
-                border-radius: 40px;
-                flex-direction: row;
-                gap: 20px;
-                border: 1px solid rgba(0, 210, 255, 0.4);
-                box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(0, 210, 255, 0.2);
-                width: auto;
+                bottom: 20px; left: 50%; transform: translateX(-50%);
+                background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px);
+                padding: 10px 25px; border-radius: 40px; flex-direction: row; gap: 20px;
+                border: 1px solid rgba(0, 210, 255, 0.4); width: auto;
             }
-            .tooltip {
-                position: absolute;
-                bottom: 85px;
-                left: 50%;
-                transform: translateX(-50%) translateY(10px);
-                opacity: 0;
-                font-size: 0.6em;
-            }
+            .tooltip { position: absolute; bottom: 85px; left: 50%; transform: translateX(-50%) translateY(10px); opacity: 0; }
             .nav-item:active .tooltip { opacity: 1; transform: translateX(-50%) translateY(0); }
-            .wa-ring-outer, .wa-ring-inner { opacity: 0.8 !important; }
         }
 
         .nav-item { position: relative; display: flex; align-items: center; justify-content: center; }
-
-        .tooltip {
-            background: rgba(10, 10, 10, 0.95);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 10px;
-            border: 1px solid var(--neon-blue);
-            box-shadow: 0 0 15px var(--neon-blue);
-            pointer-events: none;
-            transition: 0.3s ease;
-            white-space: nowrap;
-            z-index: 3000;
-        }
+        .tooltip { background: rgba(10, 10, 10, 0.95); color: white; padding: 8px 15px; border-radius: 10px; border: 1px solid var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); pointer-events: none; transition: 0.3s ease; white-space: nowrap; z-index: 3000; }
 
         .satellite-button { width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); }
         .float-fb { background: #1877F2; box-shadow: 0 0 10px #1877F2; }
@@ -181,11 +164,15 @@
         <div class="brand-section">
             <h1 class="brand-name">IMAGO</h1>
             <div class="services-container">
-                <span class="service-chip">🎬 VIDEO EDIT</span>
-                <span class="service-chip">📸 PHOTOGRAPHY</span>
-                <span class="service-chip">🪄 FX MAGIC</span>
+                <span class="service-chip">🎬 VIDEO</span>
+                <span class="service-chip">🎙️ AUDIO</span>
+                <span class="service-chip">💡 ILUMINACIÓN</span>
             </div>
         </div>
+
+        <p class="description-text">
+            Transformamos ideas en experiencias sensoriales. Somos expertos en <strong>producción audiovisual de alto impacto</strong>, capturando la esencia de cada momento con tecnología de vanguardia.
+        </p>
 
         <div class="gallery-container">
             <div class="hexagon" onclick="openImg('1.png')"><img src="1.png"></div>
@@ -210,19 +197,12 @@
         <div class="nav-item">
             <span class="tooltip">Inicia la magia por WhatsApp</span>
             <a href="https://wa.me/528671132858" class="float-wa-magic" target="_blank">
-                <div class="wa-ring-outer"></div>
-                <div class="wa-ring-inner"></div>
+                <div class="wa-ring-outer"></div><div class="wa-ring-inner"></div>
                 <div class="wa-core"><svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-117zm-157 338.7h-.1c-34 0-67.3-9.1-96-26.3l-6.9-4.1-71.4 18.7 19-69.4-4.5-7.1c-18.9-30-28.9-64.8-28.9-100.9 0-106.1 86.4-192.6 192.6-192.6 51.4 0 99.7 20 136 56.4 36.3 36.3 56.3 84.7 56.3 136 0 106.2-86.5 192.7-192.6 192.7zm116-160.2c-6.1-3.1-36.1-17.8-41.7-19.8-5.6-2.1-9.7-3.1-13.8 3.1-4.1 6.1-15.8 19.8-19.4 23.9-3.6 4.1-7.1 4.6-13.2 1.5-6.1-3.1-25.8-9.5-49.1-30.4-18.1-16.1-30.3-36-33.9-42.1-3.6-6.1-.4-9.4 2.7-12.4 2.8-2.8 6.1-7.1 9.2-10.7 3.1-3.6 4.1-6.1 6.1-10.2 2-4.1 1-7.6-.5-10.7-1.5-3.1-13.8-33.2-18.9-45.6-5-12.1-10.1-10.4-13.8-10.6-3.6-.2-7.6-.2-11.7-.2-4.1 0-10.7 1.5-16.3 7.6-5.6 6.1-21.4 21-21.4 51.2 0 30.2 22 59.4 25.1 63.5 3.1 4.1 43.1 65.8 104.3 92.2 14.6 6.3 25.9 10.1 34.8 13 14.7 4.7 28 4 38.5 2.4 11.7-1.8 36.1-14.8 41.2-29.1 5.1-14.3 5.1-26.6 3.6-29.1-1.5-2.5-5.6-4.1-11.7-7.2z"/></svg></div>
             </a>
         </div>
-        <div class="nav-item">
-            <span class="tooltip">Revisa y sigue nuestro trabajo en Instagram</span>
-            <a href="https://www.instagram.com" target="_blank" class="satellite-button float-ig"><svg viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.9c-41.4 0-75-33.6-75-75s33.6-75 75-75 75 33.6 75 75-33.6 75-75 75zm146.1-194.3c0 14.9-12.1 27-27 27s-27-12.1-27-27 12.1-27 27-27 27 12.1 27 27zm13.9 194.3c0 99.6-81 180.6-180.6 180.6S43.5 379.1 43.5 279.5 124.5 98.9 224.1 98.9 404.7 179.9 404.7 279.5zM224.1 64C105 64 8.6 160.4 8.6 279.5s96.4 215.5 215.5 215.5 215.5-96.4 215.5-215.5S343.2 64 224.1 64z"/></svg></a>
-        </div>
-        <div class="nav-item">
-            <span class="tooltip">Revisa y sigue nuestro trabajo en Facebook</span>
-            <a href="https://www.facebook.com" target="_blank" class="satellite-button float-fb"><svg viewBox="0 0 448 512"><path d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"/></svg></a>
-        </div>
+        <div class="nav-item"><span class="tooltip">Instagram</span><a href="https://www.instagram.com" target="_blank" class="satellite-button float-ig"><svg viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.9c-41.4 0-75-33.6-75-75s33.6-75 75-75 75 33.6 75 75-33.6 75-75 75zm146.1-194.3c0 14.9-12.1 27-27 27s-27-12.1-27-27 12.1-27 27-27 27 12.1 27 27zm13.9 194.3c0 99.6-81 180.6-180.6 180.6S43.5 379.1 43.5 279.5 124.5 98.9 224.1 98.9 404.7 179.9 404.7 279.5zM224.1 64C105 64 8.6 160.4 8.6 279.5s96.4 215.5 215.5 215.5 215.5-96.4 215.5-215.5S343.2 64 224.1 64z"/></svg></a></div>
+        <div class="nav-item"><span class="tooltip">Facebook</span><a href="https://www.facebook.com" target="_blank" class="satellite-button float-fb"><svg viewBox="0 0 448 512"><path d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"/></svg></a></div>
     </div>
 
     <script>
