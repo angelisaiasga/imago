@@ -49,7 +49,7 @@
         /* --- TARJETA PRINCIPAL --- */
         .card {
             background: rgba(10, 10, 10, 0.9);
-            width: 90%;
+            width: 95%;
             max-width: 420px;
             border-radius: 24px;
             overflow: hidden;
@@ -59,7 +59,7 @@
             position: relative;
             z-index: 1;
             backdrop-filter: blur(10px);
-            margin: 20px 0;
+            margin: 20px 0 100px 0; /* Margen inferior para no chocar con botones en móvil */
         }
 
         .header-img { width: 100%; height: 150px; object-fit: cover; border-bottom: 3px solid var(--neon-blue); }
@@ -72,29 +72,61 @@
         .service-chip { font-size: 0.65em; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--neon-purple); background: rgba(157, 80, 187, 0.2); box-shadow: 0 0 10px rgba(157, 80, 187, 0.3); color: #fff; letter-spacing: 1px; }
 
         /* --- GALERÍA HEXAGONAL --- */
-        .gallery-container { padding: 20px 10px 80px; display: flex; flex-wrap: wrap; justify-content: center; max-width: 350px; margin: 0 auto; }
-        .hexagon { width: 100px; height: 110px; position: relative; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); margin: -12px 2px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; background: #222; z-index: 1; }
+        .gallery-container { padding: 20px 10px 60px; display: flex; flex-wrap: wrap; justify-content: center; max-width: 350px; margin: 0 auto; }
+        .hexagon { width: 90px; height: 100px; position: relative; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); margin: -10px 2px; transition: 0.4s; cursor: pointer; background: #222; z-index: 1; }
         .hexagon img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(60%) brightness(0.7); transition: 0.4s ease; }
-        .hexagon:nth-child(3n+2) { transform: translateY(55px); }
-        .hexagon:hover { transform: scale(1.2); z-index: 50; filter: drop-shadow(0 0 15px var(--neon-blue)); }
-        .hexagon:nth-child(3n+2):hover { transform: translateY(55px) scale(1.2); }
+        .hexagon:nth-child(3n+2) { transform: translateY(50px); }
+        .hexagon:hover { transform: scale(1.1) !important; z-index: 50; filter: drop-shadow(0 0 15px var(--neon-blue)); }
         .hexagon:hover img { filter: grayscale(0%) brightness(1.1); }
 
-        /* --- BARRA FLOTANTE CON ETIQUETAS ACTUALIZADAS --- */
+        /* --- BARRA FLOTANTE ADAPTATIVA --- */
         .floating-magic-bar { 
-            position: fixed; bottom: 30px; right: 30px; 
-            display: flex; flex-direction: column-reverse; 
-            align-items: center; gap: 15px; z-index: 2000; 
+            position: fixed; 
+            z-index: 2000; 
+            display: flex;
+            transition: all 0.5s ease;
+        }
+
+        /* Desktop: Lado derecho vertical */
+        @media (min-width: 769px) {
+            .floating-magic-bar {
+                bottom: 30px; 
+                right: 30px; 
+                flex-direction: column-reverse; 
+                gap: 15px; 
+            }
+            .tooltip {
+                position: absolute;
+                right: 85px;
+                opacity: 0;
+                transform: translateX(20px);
+                display: block;
+            }
+        }
+
+        /* Móvil: Barra inferior horizontal */
+        @media (max-width: 768px) {
+            .floating-magic-bar {
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(10, 10, 10, 0.85);
+                backdrop-filter: blur(15px);
+                padding: 15px;
+                flex-direction: row;
+                justify-content: space-around;
+                border-top: 1px solid rgba(0, 210, 255, 0.3);
+                box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+            }
+            .tooltip { display: none; } /* Ocultar tooltips en móvil para no tapar contenido */
+            .nav-item { transform: scale(0.9); }
+            .card { margin-bottom: 120px; } /* Evita que la tarjeta quede detrás de la barra móvil */
         }
 
         .nav-item { position: relative; display: flex; align-items: center; justify-content: center; }
 
-        /* Tooltip Imago (Ajustado para textos largos) */
         .tooltip {
-            position: absolute;
-            right: 85px;
             background: rgba(10, 10, 10, 0.9);
-            backdrop-filter: blur(8px);
             color: white;
             padding: 10px 18px;
             border-radius: 12px;
@@ -102,12 +134,8 @@
             white-space: nowrap;
             border: 1px solid var(--neon-blue);
             box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
-            opacity: 0;
             pointer-events: none;
             transition: all 0.4s ease;
-            transform: translateX(20px);
-            letter-spacing: 0.5px;
-            text-transform: none; /* Mantiene minúsculas para mejor legibilidad del mensaje largo */
         }
 
         .nav-item:hover .tooltip { opacity: 1; transform: translateX(0); }
@@ -115,14 +143,13 @@
         .satellite-button { width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; transition: 0.3s; border: 2px solid rgba(255,255,255,0.1); }
         .float-fb { background: #1877F2; box-shadow: 0 0 15px #1877F2; }
         .float-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%,#d6249f 60%,#285AEB 90%); box-shadow: 0 0 15px #d6249f; }
-        .satellite-button:hover { transform: scale(1.1) translateY(-5px); }
-        .satellite-button svg { width: 24px; fill: white; }
+        .satellite-button svg { width: 22px; fill: white; }
 
-        .float-wa-magic { width: 75px; height: 75px; position: relative; display: flex; justify-content: center; align-items: center; text-decoration: none; transition: transform 0.3s; }
+        .float-wa-magic { width: 65px; height: 65px; position: relative; display: flex; justify-content: center; align-items: center; text-decoration: none; }
         .wa-ring-outer { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px dashed var(--neon-blue); animation: rotate-cw 15s linear infinite; opacity: 0.5; }
         .wa-ring-inner { position: absolute; width: 82%; height: 82%; border-radius: 50%; border: 2px solid var(--neon-purple); animation: rotate-acw 10s linear infinite; opacity: 0.6; }
         .wa-core { position: absolute; width: 65%; height: 65%; border-radius: 50%; background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue)); display: flex; justify-content: center; align-items: center; box-shadow: 0 0 20px var(--neon-blue); z-index: 10; }
-        .wa-core svg { width: 28px; fill: white; }
+        .wa-core svg { width: 24px; fill: white; }
 
         @keyframes rotate-cw { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes rotate-acw { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
@@ -130,11 +157,10 @@
         /* --- LIGHTBOX --- */
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(15px); display: none; justify-content: center; align-items: center; z-index: 9999; }
         .overlay.active { display: flex; }
-        .overlay-img { max-width: 85%; max-height: 80%; border-radius: 15px; border: 2px solid var(--neon-blue); box-shadow: 0 0 30px var(--neon-blue); transform: scale(0.8); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .overlay-img { max-width: 85%; max-height: 80%; border-radius: 15px; border: 2px solid var(--neon-blue); box-shadow: 0 0 30px var(--neon-blue); transform: scale(0.8); transition: 0.4s; }
         .overlay.active .overlay-img { transform: scale(1); }
-        .close-btn { position: absolute; top: 40px; right: 40px; width: 55px; height: 55px; background: #000; border: 2px solid var(--neon-blue); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 0 20px var(--neon-blue); transition: 0.3s; z-index: 10001; }
-        .close-btn:hover { background: var(--neon-blue); transform: scale(1.1) rotate(90deg); }
-        .close-btn span { color: white; font-size: 35px; line-height: 0; margin-top: -3px; }
+        .close-btn { position: absolute; top: 20px; right: 20px; width: 50px; height: 50px; background: #000; border: 2px solid var(--neon-blue); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 0 20px var(--neon-blue); z-index: 10001; }
+        .close-btn span { color: white; font-size: 30px; }
 
         .footer { padding-bottom: 20px; font-size: 0.7em; opacity: 0.3; }
     </style>
@@ -174,8 +200,8 @@
         <img src="" class="overlay-img" id="fullImg">
     </div>
 
+    <!-- BARRA FLOTANTE ADAPTATIVA -->
     <div class="floating-magic-bar">
-        
         <div class="nav-item">
             <span class="tooltip">Inicia la magia por WhatsApp</span>
             <a href="https://wa.me/528671132858" class="float-wa-magic" target="_blank">
@@ -200,16 +226,15 @@
                 <svg viewBox="0 0 448 512"><path d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"/></svg>
             </a>
         </div>
-
     </div>
 
     <script>
         function initParticles() {
             const container = document.getElementById('particles-container');
-            for (let i = 0; i < 40; i++) {
+            for (let i = 0; i < 30; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle';
-                const size = Math.random() * 5 + 2 + 'px';
+                const size = Math.random() * 4 + 2 + 'px';
                 p.style.width = size; p.style.height = size;
                 p.style.left = Math.random() * 100 + 'vw';
                 p.style.animationDuration = Math.random() * 8 + 4 + 's';
