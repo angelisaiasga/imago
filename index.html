@@ -12,6 +12,7 @@
             --text-light: #f0f0f0;
             --magic-glitter-1: rgba(0, 210, 255, 0.9);
             --magic-glitter-2: rgba(157, 80, 187, 0.9);
+            --whatsapp-green: #25D366;
         }
 
         body {
@@ -38,8 +39,8 @@
             border: 1px solid #333;
             text-align: center;
             transition: box-shadow 0.3s ease;
-            /* Optimización de renderizado */
             contain: content;
+            margin: 20px 0;
         }
 
         .card:hover {
@@ -53,7 +54,6 @@
             display: block;
             border-bottom: 3px solid var(--neon-blue);
             pointer-events: none;
-            /* Evita el parpadeo durante la carga */
             background-color: #1a1a1a;
         }
 
@@ -149,16 +149,69 @@
         .menu-link span { position: relative; z-index: 2; }
         .footer { padding: 20px 30px 40px; font-size: 0.8em; opacity: 0.4; letter-spacing: 1px;}
 
+        /* --- BOTÓN FLOTANTE DE WHATSAPP --- */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--whatsapp-green) 0%, var(--neon-blue) 100%);
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 10px rgba(37, 211, 102, 0.3);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.5);
+        }
+
+        /* Efecto de pulso discreto */
+        .whatsapp-float::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--whatsapp-green);
+            animation: pulse-ring 2s infinite;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        @media (max-width: 480px) {
+            .whatsapp-float {
+                width: 55px;
+                height: 55px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 28px;
+            }
+        }
+
     </style>
 </head>
 <body oncontextmenu="return false;">
 
 <div class="card">
-    <!-- Optimización: fetchpriority="high" para cargar el encabezado primero -->
     <img src="Encabezado.png" alt="Encabezado IMAGO" class="header-img" fetchpriority="high" loading="eager">
     
     <div class="logo-container">
-        <!-- Optimización: loading="lazy" para el logo (se carga después del encabezado) -->
         <img src="Logo.png" alt="Logo IMAGO" class="logo-img" loading="lazy">
     </div>
 
@@ -167,17 +220,12 @@
         <div class="tagline">Magia Audiovisual</div>
         
         <div class="menu-list">
-            <a href="#" class="menu-link">
+            <a href="https://www.facebook.com" target="_blank" class="menu-link">
                 <span>📘 Ve nuestro trabajo en Facebook</span>
                 <span>▶</span>
             </a>
-            <a href="#" class="menu-link">
+            <a href="https://www.instagram.com" target="_blank" class="menu-link">
                 <span>📸 Ve nuestro trabajo en Instagram</span>
-                <span>▶</span>
-            </a>
-            <!-- WhatsApp con mensaje sutil y número original corregido -->
-            <a href="https://wa.me/528671132858?text=Hola%2C%20me%20gustar%C3%ADa%20conocer%20m%C3%A1s%20sobre%20sus%20servicios%20audiovisuales.%20%C2%BFPodr%C3%ADan%20darme%20informaci%C3%B3n%3F%20Gracias." class="menu-link" style="border-left-color: #25D366;">
-                <span>💬 Contáctanos vía WhatsApp</span>
                 <span>▶</span>
             </a>
         </div>
@@ -185,6 +233,14 @@
 
     <div class="footer">© 2026 IMAGO AUDIOVISUALES</div>
 </div>
+
+<!-- Botón Flotante de WhatsApp -->
+<a href="https://wa.me/528671132858?text=Hola%2C%20me%20gustar%C3%ADa%20conocer%20m%C3%A1s%20sobre%20sus%20servicios%20audiovisuales.%20%C2%BFPodr%C3%ADan%20darme%20informaci%C3%B3n%3F%20Gracias." 
+   class="whatsapp-float" 
+   target="_blank" 
+   title="Contáctanos vía WhatsApp">
+    <span>💬</span>
+</a>
 
 <script>
     document.onkeydown = function(e) {
