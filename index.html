@@ -12,7 +12,6 @@
             --text-light: #f0f0f0;
             --magic-glitter-1: rgba(0, 210, 255, 0.9);
             --magic-glitter-2: rgba(157, 80, 187, 0.9);
-            --whatsapp-green: #25D366;
         }
 
         body {
@@ -41,10 +40,8 @@
             transition: box-shadow 0.3s ease;
             contain: content;
             margin: 20px 0;
-        }
-
-        .card:hover {
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 210, 255, 0.25);
+            position: relative;
+            z-index: 1; /* Asegura que la tarjeta esté debajo del botón flotante */
         }
 
         .header-img {
@@ -53,7 +50,6 @@
             object-fit: cover;
             display: block;
             border-bottom: 3px solid var(--neon-blue);
-            pointer-events: none;
             background-color: #1a1a1a;
         }
 
@@ -72,7 +68,6 @@
             padding: 5px;
             box-shadow: 0 0 20px var(--neon-blue);
             object-fit: contain;
-            pointer-events: none;
         }
 
         .brand-section { padding: 20px 30px; }
@@ -116,103 +111,114 @@
             transition: transform 0.2s ease;
         }
 
-        .menu-link::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                radial-gradient(circle at 10% 20%, var(--magic-glitter-1) 1.5px, transparent 1.5px),
-                radial-gradient(circle at 80% 40%, var(--magic-glitter-2) 2px, transparent 2px),
-                radial-gradient(circle at 30% 70%, var(--magic-glitter-1) 1px, transparent 1px);
-            background-size: 60px 60px;
-            opacity: 0;
-            z-index: 1;
-            transition: opacity 0.4s ease;
-        }
-
-        .menu-link:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-left-color: var(--neon-blue);
-            transform: scale(1.03);
-        }
-
-        .menu-link:hover::before {
-            opacity: 1;
-            animation: twinkling 1.5s linear infinite;
-        }
-
-        @keyframes twinkling {
-            from { background-position: 0 0; }
-            to { background-position: 60px 60px; }
-        }
-
-        .menu-link span { position: relative; z-index: 2; }
-        .footer { padding: 20px 30px 40px; font-size: 0.8em; opacity: 0.4; letter-spacing: 1px;}
-
-        /* --- BOTÓN FLOTANTE DE WHATSAPP --- */
-        .whatsapp-float {
+        /* --- ESTILOS DEL BOTÓN FLOTANTE MÁGICO (NUEVO) --- */
+        .magic-contact-float {
             position: fixed;
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             bottom: 30px;
             right: 30px;
-            background: linear-gradient(135deg, var(--whatsapp-green) 0%, var(--neon-blue) 100%);
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 10px rgba(37, 211, 102, 0.3);
-            z-index: 1000;
+            z-index: 2000; /* Siempre encima de todo */
             display: flex;
             justify-content: center;
             align-items: center;
             text-decoration: none;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 0 10px var(--magic-glitter-1));
         }
 
-        .whatsapp-float:hover {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.5);
-        }
-
-        /* Efecto de pulso discreto */
-        .whatsapp-float::after {
-            content: '';
+        /* Capa 1: El Lente Externo Giratorio */
+        .magic-contact-float .lens-outer {
             position: absolute;
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border: 2px solid var(--whatsapp-green);
-            animation: pulse-ring 2s infinite;
-            opacity: 0;
-            pointer-events: none;
+            border: 2px dashed var(--neon-blue);
+            box-sizing: border-box;
+            animation: rotate-clockwise 15s linear infinite;
+            opacity: 0.6;
         }
 
-        @keyframes pulse-ring {
-            0% { transform: scale(1); opacity: 0.5; }
-            100% { transform: scale(1.5); opacity: 0; }
+        /* Capa 2: El Núcleo de Energía y Glitter */
+        .magic-contact-float .core-inner {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            background: conic-gradient(from 180deg at 50% 50%, #fff 0deg, var(--neon-blue) 100deg, var(--neon-purple) 220deg, #fff 360deg);
+            box-shadow: inset 0 0 15px rgba(255,255,255,0.5), 0 0 20px var(--neon-purple);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
 
+        /* Efecto Glitter dentro del núcleo */
+        .magic-contact-float .core-inner::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                radial-gradient(circle at 50% 50%, #fff 1.5px, transparent 1.5px),
+                radial-gradient(circle at 20% 80%, var(--magic-glitter-1) 2px, transparent 2px),
+                radial-gradient(circle at 80% 30%, var(--magic-glitter-2) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: twinkling-fast 1s linear infinite;
+        }
+
+        /* El icono de chat neón */
+        .magic-contact-float .icon {
+            font-size: 32px;
+            position: relative;
+            z-index: 5;
+            color: #fff;
+            text-shadow: 0 0 10px #fff, 0 0 20px var(--neon-blue);
+            transform: translateY(-2px);
+        }
+
+        /* Animaciones */
+        @keyframes rotate-clockwise { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes rotate-anticlockwise { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+        @keyframes twinkling-fast {
+            0% { background-position: 0 0; opacity: 0.8; }
+            50% { background-position: 20px 20px; opacity: 1; }
+            100% { background-position: 40px 40px; opacity: 0.8; }
+        }
+
+        /* Comportamiento Hover (Llamativo) */
+        .magic-contact-float:hover {
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 20px var(--neon-purple));
+        }
+
+        .magic-contact-float:hover .lens-outer {
+            animation-duration: 4s; /* Gira muy rápido al tocarlo */
+            opacity: 1;
+            border-style: solid;
+        }
+
+        /* Ajuste Móvil */
         @media (max-width: 480px) {
-            .whatsapp-float {
-                width: 55px;
-                height: 55px;
+            .magic-contact-float {
+                width: 60px;
+                height: 60px;
                 bottom: 20px;
                 right: 20px;
-                font-size: 28px;
             }
+            .magic-contact-float .icon { font-size: 28px; }
         }
 
+        .footer { padding: 20px 30px 40px; font-size: 0.8em; opacity: 0.4; letter-spacing: 1px;}
     </style>
 </head>
 <body oncontextmenu="return false;">
 
 <div class="card">
-    <img src="Encabezado.png" alt="Encabezado IMAGO" class="header-img" fetchpriority="high" loading="eager">
+    <img src="Encabezado.png" alt="Encabezado IMAGO" class="header-img" fetchpriority="high">
     
     <div class="logo-container">
-        <img src="Logo.png" alt="Logo IMAGO" class="logo-img" loading="lazy">
+        <img src="Logo.png" alt="Logo IMAGO" class="logo-img">
     </div>
 
     <div class="brand-section">
@@ -234,21 +240,15 @@
     <div class="footer">© 2026 IMAGO AUDIOVISUALES</div>
 </div>
 
-<!-- Botón Flotante de WhatsApp -->
-<a href="https://wa.me/528671132858?text=Hola%2C%20me%20gustar%C3%ADa%20conocer%20m%C3%A1s%20sobre%20sus%20servicios%20audiovisuales.%20%C2%BFPodr%C3%ADan%20darme%20informaci%C3%B3n%3F%20Gracias." 
-   class="whatsapp-float" 
+<a href="https://wa.me/528671132858?text=Hola%2C%20vi%20su%20App%20y%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto%20audiovisual." 
+   class="magic-contact-float" 
    target="_blank" 
-   title="Contáctanos vía WhatsApp">
-    <span>💬</span>
+   title="Inicia la Magia por WhatsApp">
+    <div class="lens-outer"></div>
+    <div class="core-inner">
+        <span class="icon">💬</span>
+    </div>
 </a>
-
-<script>
-    document.onkeydown = function(e) {
-        if(e.keyCode == 123) return false;
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-    }
-</script>
 
 </body>
 </html>
