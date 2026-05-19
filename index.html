@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMAGO - Magia Audiovisual v2.6.1</title>
+    <title>IMAGO - Magia Audiovisual v3.0.0</title>
     <style>
         :root {
             --primary-bg: #050505;
@@ -12,7 +12,7 @@
             --text-light: #f0f0f0;
             --glass-text: rgba(240, 240, 240, 0.7);
             --cyber-pink: #ff007f;
-            --imago-glow: rgba(0, 210, 255, 0.5); /* Color de brillo principal */
+            --cyber-yellow: #fffe00;
         }
 
         body {
@@ -46,22 +46,29 @@
 
         .services-container { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; }
         .service-chip { font-size: 0.75em; padding: 6px 18px; border-radius: 20px; border: 1px solid var(--neon-purple); background: rgba(157, 80, 187, 0.2); color: #fff; font-weight: 600; }
-        .description-text { font-size: clamp(0.9em, 1.4vw, 1.1em); line-height: 1.6; color: var(--glass-text); padding: 0 15%; margin: 0 auto 35px; font-weight: 300; max-width: 800px; }
+        .description-text { font-size: clamp(0.9em, 1.4vw, 1.1em); line-height: 1.6; color: var(--glass-text); padding: 0 15%; margin: 0 auto 25px; font-weight: 300; max-width: 800px; }
         .description-text strong { color: var(--neon-blue); font-weight: 500; }
 
-        /* --- GALERÍA HEXAGONAL --- */
+        /* BOTÓN CONÓCENOS */
+        .btn-conocenos { display: inline-block; background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); color: white; text-decoration: none; padding: 10px 25px; border-radius: 30px; font-size: 0.85em; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); transition: 0.3s; margin-bottom: 35px; }
+        .btn-conocenos:hover { transform: scale(1.05); box-shadow: 0 0 25px var(--neon-blue); }
+
+        /* --- REJILLA MIXTA INTERCALADA --- */
         .gallery-container { padding: 0 20px 80px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 0 auto; }
         .hexagon { 
             width: 110px; height: 125px; position: relative; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; background: #111; 
         }
         .hexagon img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(40%) brightness(0.8); transition: 0.4s ease; }
+        
         .hexagon.video-target img { padding: 18px; box-sizing: border-box; object-fit: contain; filter: none; }
         .hexagon:hover { transform: scale(1.15) !important; z-index: 50; filter: drop-shadow(0 0 15px var(--neon-blue)); }
         .hexagon:hover img { filter: grayscale(0%) brightness(1.1); }
+        
         .hexagon.video-target::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.45); z-index: 5; transition: 0.3s; }
-        .hexagon.video-target::after { content: "▶"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--neon-blue); font-size: 1.4em; text-shadow: 0 0 12px rgba(0, 210, 255, 0.7); z-index: 10; pointer-events: none; }
+        .hexagon.video-target::after { content: "▶"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--neon-blue); font-size: 1.4em; text-shadow: 0 0 12px rgba(0, 210, 255, 0.7); z-index: 10; transition: 0.3s; pointer-events: none; }
 
+        /* --- RESPONSIVE MÓVIL --- */
         @media (max-width: 768px) {
             .gallery-container { display: block; width: 320px; margin: 0 auto 100px; padding: 0; text-align: left; }
             .hexagon { display: inline-block; width: 100px; height: 115px; margin: -15px 2px; }
@@ -70,123 +77,143 @@
             .card { margin-bottom: 150px; }
         }
 
-        /* --- LIGHTBOX ENFOCADO EN EL CONTENIDO --- */
-        .overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0, 0, 0, 0.98);
-            backdrop-filter: blur(25px);
-            display: none; justify-content: center; align-items: center; z-index: 99999; 
-        }
+        /* --- LIGHTBOX MULTIMEDIA CYBERPUNK --- */
+        .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2, 2, 4, 0.97); backdrop-filter: blur(20px); display: none; justify-content: center; align-items: center; z-index: 9999; }
         .overlay.active { display: flex; }
 
-        .cyber-nav-btn {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(20, 20, 20, 0.8); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff;
-            width: 50px; height: 60px; display: flex; justify-content: center; align-items: center;
-            font-size: 1.5em; cursor: pointer; z-index: 100010; transition: 0.3s;
+        .close-btn { 
+            position: fixed; top: 25px; right: 25px; width: 52px; height: 52px; 
+            background: #000; border: 2px solid var(--cyber-pink); border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center; cursor: pointer; 
+            box-shadow: 0 0 15px var(--cyber-pink), inset 0 0 10px rgba(255, 0, 127, 0.5); 
+            z-index: 10300; transition: all 0.3s ease;
         }
-        .cyber-nav-btn:hover { background: #fff; color: #000; border-color: #fff; }
-        .btn-left { left: 20px; border-radius: 4px 20px 20px 4px; }
-        .btn-right { right: 20px; border-radius: 20px 4px 4px 20px; }
+        .close-btn:hover { border-color: var(--neon-blue); box-shadow: 0 0 25px var(--neon-blue), inset 0 0 15px rgba(0, 210, 255, 0.6); transform: scale(1.1) rotate(90deg); }
+        .close-btn span { color: var(--cyber-pink); font-size: 34px; line-height: 0; margin-top: -3px; pointer-events: none; font-weight: bold; }
+        .close-btn:hover span { color: var(--neon-blue); }
+
+        .cyber-nav-btn { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(5, 5, 8, 0.9); border: 2px solid var(--neon-blue); color: var(--neon-blue); width: 50px; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 1.6em; font-weight: 900; cursor: pointer; z-index: 10100; transition: all 0.3s; box-shadow: 0 0 15px var(--neon-blue), inset 0 0 10px rgba(0, 210, 255, 0.3); text-shadow: 0 0 8px var(--neon-blue); font-family: monospace; animation: pulseBlueGlow 3s infinite; }
+        .cyber-nav-btn:hover { border-color: var(--cyber-pink); color: var(--cyber-pink); box-shadow: 0 0 25px var(--cyber-pink), inset 0 0 15px rgba(255, 0, 127, 0.5); text-shadow: 0 0 12px var(--cyber-pink); }
+        .btn-left { left: 20px; clip-path: polygon(0% 0%, 100% 15%, 100% 85%, 0% 100%); }
+        .btn-right { right: 20px; clip-path: polygon(0% 15%, 100% 0%, 100% 100%, 0% 85%); }
 
         .video-wrapper {
-            position: relative; width: 85%; max-width: 800px; display: none;
-            border-radius: 12px; padding: 2px; background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8); z-index: 100005;
+            position: relative; width: 85%; max-width: 750px; display: none;
+            border-radius: 12px; padding: 3px; background: linear-gradient(135deg, var(--neon-blue), var(--cyber-pink));
+            box-shadow: 0 0 40px rgba(0, 210, 255, 0.4); z-index: 10005;
         }
-        .overlay-media { width: 100%; max-height: 75vh; border-radius: 10px; display: block; outline: none; }
-        #fullImg { max-width: 85%; max-height: 80%; border-radius: 15px; box-shadow: 0 0 40px rgba(0,0,0,0.9); display: none; z-index: 100005; }
+        .video-wrapper::after {
+            content: ""; position: absolute; top: 3px; left: 3px; right: 3px; bottom: 3px;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.22) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+            background-size: 100% 4px, 6px 100%; z-index: 10007; pointer-events: none; border-radius: 10px;
+        }
+
+        .overlay-media { width: 100%; max-height: 65vh; border-radius: 10px; display: block; outline: none; background: #000; }
+        #fullImg { max-width: 80%; max-height: 70vh; border-radius: 12px; border: 2px solid var(--neon-blue); box-shadow: 0 0 30px var(--neon-blue); display: none; z-index: 10005; }
 
         .audio-alert {
-            position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%);
-            background: #000; border: 1px solid var(--neon-blue); color: var(--neon-blue);
-            padding: 10px 25px; border-radius: 4px; font-size: 0.85em; font-weight: bold;
-            cursor: pointer; box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); z-index: 100015;
-            letter-spacing: 2px; text-transform: uppercase; font-family: monospace; display: none;
+            position: absolute; top: -65px; left: 50%; transform: translateX(-50%);
+            background: #000; border: 2px solid var(--neon-blue); color: var(--neon-blue);
+            padding: 12px 24px; border-radius: 4px; font-size: 0.85em; font-weight: bold;
+            cursor: pointer; box-shadow: 0 0 15px var(--neon-blue), inset 0 0 8px rgba(0, 210, 255, 0.3);
+            z-index: 10200; letter-spacing: 2px; text-transform: uppercase; font-family: 'Courier New', monospace; 
+            display: none; transition: 0.3s; white-space: nowrap; text-shadow: 0 0 5px var(--neon-blue);
+            animation: pulseBlueGlow 2s infinite;
         }
+        .audio-alert:hover { border-color: var(--cyber-yellow); color: var(--cyber-yellow); box-shadow: 0 0 25px var(--cyber-yellow), inset 0 0 10px rgba(254, 254, 0, 0.4); text-shadow: 0 0 10px var(--cyber-yellow); }
 
-        .close-btn { 
-            position: absolute; top: 30px; right: 30px; width: 50px; height: 50px; 
-            background: rgba(20, 20, 20, 0.8); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50%; 
-            display: flex; justify-content: center; align-items: center; cursor: pointer; 
-            z-index: 100030; transition: 0.3s; opacity: 0; transform: scale(0.5);
+        @keyframes pulseBlueGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(0, 210, 255, 0.4), inset 0 0 8px rgba(0, 210, 255, 0.2); opacity: 0.9; }
+            50% { box-shadow: 0 0 25px var(--neon-blue), inset 0 0 12px rgba(0, 210, 255, 0.4); opacity: 1; }
         }
-        .overlay.active .close-btn { transform: scale(1); opacity: 0.8; }
-        .close-btn:hover { background: #fff; color: #000; opacity: 1; }
-        .close-btn span { color: white; font-size: 32px; line-height: 0; margin-top: -3px; }
 
         @media (max-width: 768px) {
-            .close-btn { top: 20px; right: 20px; width: 45px; height: 45px; }
-            .cyber-nav-btn { width: 40px; height: 50px; }
-            .btn-left { left: 10px; } .btn-right { right: 10px; }
+            .close-btn { top: 20px; right: 20px; width: 48px; height: 48px; z-index: 10300 !important; background: #000 !important; }
+            .close-btn span { font-size: 30px; color: var(--cyber-pink); }
+            .cyber-nav-btn { width: 40px; height: 55px; font-size: 1.3em; background: rgba(3, 3, 5, 0.95); }
+            .btn-left { left: 4px; } .btn-right { right: 4px; }
+            .video-wrapper { width: 92%; margin-top: 40px; } 
+            .audio-alert { top: -60px; font-size: 0.75em; padding: 10px 18px; } 
         }
 
-        /* --- DOCK FLOTANTE DE CONTACTO (CAPA EXTREMA) --- */
+        /* --- BARRA DE CONTACTO FLOTANTE SUPREMA CON COMPORTAMIENTO MÁGICO --- */
         .floating-magic-bar { 
             position: fixed; 
-            z-index: 100050; /* CAPA SUPERIOR ABSOLUTA */
-            display: flex; transition: all 0.4s ease; 
+            display: flex; 
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); 
+            z-index: 10500 !important; /* Inmune a la oscuridad del modal */
         }
         .nav-item { position: relative; display: flex; align-items: center; justify-content: center; }
         
         @media (min-width: 769px) {
             .floating-magic-bar { bottom: 30px; right: 30px; flex-direction: column-reverse; gap: 20px; }
-            .tooltip { position: absolute; right: 85px; opacity: 0; transform: translateX(20px); background: rgba(10, 10, 10, 0.95); color: white; padding: 8px 15px; border-radius: 10px; border: 1px solid var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); white-space: nowrap; transition: 0.3s ease; pointer-events: none; font-size: 0.8em; }
+            .tooltip { 
+                position: absolute; right: 85px; opacity: 0; transform: translateX(20px); 
+                background: rgba(10, 10, 10, 0.95); color: white; padding: 8px 15px; 
+                border: 1px solid var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue);
+                border-radius: 10px; white-space: nowrap; transition: 0.3s ease; pointer-events: none; font-size: 0.8em; 
+            }
             .nav-item:hover .tooltip { opacity: 1; transform: translateX(0); }
         }
         
         @media (max-width: 768px) { 
-            .floating-magic-bar { bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(15px); padding: 10px 25px; border-radius: 40px; flex-direction: row; gap: 25px; border: 1px solid rgba(255, 255, 255, 0.1); width: auto; } 
-            .tooltip { display: none; } 
+            .floating-magic-bar { bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(15px); padding: 10px 25px; border-radius: 40px; flex-direction: row; gap: 25px; border: 1px solid rgba(0, 210, 255, 0.4); width: auto; } 
+            .tooltip { 
+                position: absolute; bottom: 85px; left: 50%; transform: translateX(-50%) translateY(10px); 
+                opacity: 0; background: rgba(10, 10, 10, 0.95); color: white; padding: 8px 15px;
+                border: 1px solid var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); border-radius: 10px;
+                white-space: nowrap; transition: 0.3s ease; pointer-events: none; font-size: 0.75em;
+            } 
+            .nav-item:active .tooltip { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
 
         .satellite-button { width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); }
-        .float-fb { background: #1877F2; }
-        .float-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%,#d6249f 60%,#285AEB 90%); }
+        .float-fb { background: #1877F2; box-shadow: 0 0 10px #1877F2; }
+        .float-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%,#d6249f 60%,#285AEB 90%); box-shadow: 0 0 10px #d6249f; }
         .satellite-button svg { width: 22px; fill: white; }
-
-        /* EL PROTAGONISTA PUBLICITARIO NEÓN */
-        .float-wa-magic { width: 65px; height: 65px; position: relative; display: flex; justify-content: center; align-items: center; text-decoration: none; transition: all 0.4s ease; }
-        .wa-ring-outer { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px dashed var(--neon-blue); animation: rotate-cw 15s linear infinite; opacity: 0.5; transition: 0.4s; }
-        .wa-ring-inner { position: absolute; width: 80%; height: 80%; border-radius: 50%; border: 2px solid var(--neon-purple); animation: rotate-acw 10s linear infinite; opacity: 0.6; transition: 0.4s; }
-        .wa-core { position: absolute; width: 62%; height: 62%; border-radius: 50%; background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue)); display: flex; justify-content: center; align-items: center; box-shadow: 0 0 15px var(--neon-blue); z-index: 10; transition: all 0.4s ease; }
-        .wa-core svg { width: 25px; fill: white; transition: 0.4s; }
+        .satellite-button:hover { transform: scale(1.1); }
+        
+        /* --- DISEÑO MÁGICO DE WHATSAPP (ANILLOS ORBITALES NEÓN) --- */
+        .float-wa-magic { width: 65px; height: 65px; position: relative; display: flex; justify-content: center; align-items: center; text-decoration: none; }
+        .wa-ring-outer { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px dashed var(--neon-blue); animation: rotate-cw 15s linear infinite; opacity: 0.5; transition: 0.3s; }
+        .wa-ring-inner { position: absolute; width: 80%; height: 80%; border-radius: 50%; border: 2px solid var(--neon-purple); animation: rotate-acw 10s linear infinite; opacity: 0.6; transition: 0.3s; }
+        .wa-core { position: absolute; width: 62%; height: 62%; border-radius: 50%; background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue)); display: flex; justify-content: center; align-items: center; box-shadow: 0 0 15px var(--neon-blue); z-index: 10; transition: 0.3s; }
+        .wa-core svg { width: 25px; fill: white; }
+        
+        .float-wa-magic:hover .wa-core { transform: scale(1.05); box-shadow: 0 0 25px var(--neon-blue); }
 
         @keyframes rotate-cw { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes rotate-acw { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
 
-        /* --- DINÁMICA PUBLICITARIA CUANDO LA GALERÍA ESTÁ ABIERTA --- */
-        body.lightbox-active .float-wa-magic {
-            transform: scale(1.3); /* Se agranda un poco más */
+        /* --- NUEVO: COMPORTAMIENTO COMPLEMENTARIO CYBERPUNK AL ABRIR LA VISTA PREVIA --- */
+        body.lightbox-open .floating-magic-bar {
+            bottom: 30px; /* Centrado especial HUD en modales */
+        }
+        body.lightbox-open .wa-ring-outer {
+            border-color: var(--cyber-pink) !important;
+            animation: rotate-cw 4s linear infinite; /* Acelera rotación de energía */
+            opacity: 0.9;
+            filter: drop-shadow(0 0 12px var(--cyber-pink));
+        }
+        body.lightbox-open .wa-ring-inner {
+            border-color: var(--cyber-yellow) !important;
+            animation: rotate-acw 3s linear infinite; /* Acelera núcleo */
+            opacity: 0.9;
+            filter: drop-shadow(0 0 10px var(--cyber-yellow));
+        }
+        body.lightbox-open .wa-core {
+            background: linear-gradient(135deg, var(--cyber-pink), var(--neon-blue)) !important;
+            box-shadow: 0 0 35px var(--cyber-pink), inset 0 0 15px rgba(255,0,127,0.6) !important;
+            animation: cyberFlicker 0.2s alternate infinite; /* Efecto Hackeo de Pantalla */
         }
         
-        /* SOLUCIÓN: Mutación y Brillo Neón Inmersivo */
-        body.lightbox-active .wa-core {
-            background: #000 !important; /* Núcleo negro para resaltar el neón exterior */
-            border: 2px solid var(--neon-blue);
-            box-shadow: 0 0 25px var(--neon-blue), inset 0 0 10px var(--neon-blue);
-            animation: imagoGlowPulse 1.8s infinite;
+        @keyframes cyberFlicker {
+            0% { opacity: 0.95; }
+            100% { opacity: 1; filter: brightness(1.2); }
         }
-        
-        body.lightbox-active .wa-core svg {
-            fill: var(--neon-blue); /* Logo también muta a neón */
-            filter: drop-shadow(0 0 5px var(--neon-blue));
-        }
-
-        body.lightbox-active .wa-ring-outer { border-color: var(--neon-blue); opacity: 0.9; }
-        body.lightbox-active .wa-ring-inner { border-color: #fff; opacity: 0.9; }
-
-        /* Animación de Respiración Neón */
-        @keyframes imagoGlowPulse {
-            0% { box-shadow: 0 0 15px var(--imago-glow), inset 0 0 5px var(--imago-glow); transform: scale(1); }
-            50% { box-shadow: 0 0 40px var(--neon-blue), inset 0 0 15px var(--neon-blue); transform: scale(1.02); }
-            100% { box-shadow: 0 0 15px var(--imago-glow), inset 0 0 5px var(--imago-glow); transform: scale(1); }
-        }
-
-        .footer { padding-bottom: 40px; font-size: 0.75em; opacity: 0.3; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
     <div id="particles-container"></div>
 
@@ -202,7 +229,9 @@
             </div>
         </div>
 
-        <p class="description-text">Transformamos ideas en experiencias sensoriales. Somos expertos en <strong>producción audiovisual de alto impacto</strong>.</p>
+        <p class="description-text">Transformamos ideas en experiencias sensoriales. Somos expertos en <strong>producción audiovisual de alto impacto</strong>, capturando la esencia de cada momento.</p>
+
+        <a href="https://wa.me/528671132858?text=Hola%20IMAGO,%20vi%20su%20página%20web.%20Me%20interesa%20conocer%20más%20sobre%20sus%20servicios." class="btn-conocenos" target="_blank">CONÓCENOS</a>
 
         <div class="gallery-container" id="mainGallery">
             <div class="hexagon" data-src="5.png"><img src="5.png" alt="Foto 5"></div>
@@ -220,6 +249,7 @@
 
     <div class="overlay" id="mediaOverlay" onclick="closeMedia()">
         <div class="close-btn" onclick="closeMedia()"><span>&times;</span></div>
+        
         <div class="cyber-nav-btn btn-left" id="goLeft">&lt;</div>
         <div class="cyber-nav-btn btn-right" id="goRight">&gt;</div>
 
@@ -241,8 +271,14 @@
                 </div>
             </a>
         </div>
-        <div class="nav-item"><span class="tooltip">Instagram</span><a href="https://www.instagram.com" target="_blank" class="satellite-button float-ig"><svg viewBox="0 0 448 512" width="22" fill="white"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.9c-41.4 0-75-33.6-75-75s33.6-75 75-75 75 33.6 75 75-33.6 75-75 75zm146.1-194.3c0 14.9-12.1 27-27 27s-27-12.1-27-27 12.1-27 27-27 27 12.1 27 27zm13.9 194.3c0 99.6-81 180.6-180.6 180.6S43.5 379.1 43.5 279.5 124.5 98.9 224.1 98.9 404.7 179.9 404.7 279.5zM224.1 64C105 64 8.6 160.4 8.6 279.5s96.4 215.5 215.5 215.5 215.5-96.4 215.5-215.5S343.2 64 224.1 64z"/></svg></a></div>
-        <div class="nav-item"><span class="tooltip">Facebook</span><a href="https://www.facebook.com" target="_blank" class="satellite-button float-fb"><svg viewBox="0 0 448 512" width="22" fill="white"><path d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"/></svg></a></div>
+        <div class="nav-item">
+            <span class="tooltip">Instagram</span>
+            <a href="https://www.instagram.com" target="_blank" class="satellite-button float-ig"><svg viewBox="0 0 448 512" width="22" fill="white"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.9c-41.4 0-75-33.6-75-75s33.6-75 75-75 75 33.6 75 75-33.6 75-75 75zm146.1-194.3c0 14.9-12.1 27-27 27s-27-12.1-27-27 12.1-27 27-27 27 12.1 27 27zm13.9 194.3c0 99.6-81 180.6-180.6 180.6S43.5 379.1 43.5 279.5 124.5 98.9 224.1 98.9 404.7 179.9 404.7 279.5zM224.1 64C105 64 8.6 160.4 8.6 279.5s96.4 215.5 215.5 215.5 215.5-96.4 215.5-215.5S343.2 64 224.1 64z"/></svg></a>
+        </div>
+        <div class="nav-item">
+            <span class="tooltip">Facebook</span>
+            <a href="https://www.facebook.com" target="_blank" class="satellite-button float-fb"><svg viewBox="0 0 448 512" width="22" fill="white"><path d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"/></svg></a>
+        </div>
     </div>
 
     <script>
@@ -267,14 +303,17 @@
             const fullVideo = document.getElementById('fullVideo');
             const audioBtn = document.getElementById('audioBtn');
 
-            fullImg.style.display = 'none';
-            videoWrapper.style.display = 'none';
-            audioBtn.style.display = 'none';
-            fullVideo.pause();
+            // Añadir clase HUD de hackeo al cuerpo para activar la metamorfosis del botón de WhatsApp
+            document.body.classList.add('lightbox-open');
 
             const item = elementosGaleria[indiceActual];
             const videoSrc = item.getAttribute('data-video');
             const imgSrc = item.getAttribute('data-src');
+
+            fullImg.style.display = 'none';
+            videoWrapper.style.display = 'none';
+            audioBtn.style.display = 'none';
+            fullVideo.pause();
 
             if (videoSrc) {
                 fullVideo.src = videoSrc;
@@ -289,9 +328,6 @@
 
             overlay.style.display = 'flex';
             setTimeout(() => overlay.classList.add('active'), 10);
-            
-            // Inyectamos la clase publicitaria activa
-            document.body.classList.add('lightbox-active');
             modalAbierto = true;
         }
 
@@ -314,13 +350,14 @@
         function closeMedia() {
             const overlay = document.getElementById('mediaOverlay');
             const fullVideo = document.getElementById('fullVideo');
+            
+            // Quitar clase HUD para regresar el botón de WhatsApp a su estado neón normal equilibrado
+            document.body.classList.remove('lightbox-open');
+            
             fullVideo.pause();
             fullVideo.src = "";
             overlay.classList.remove('active');
             setTimeout(() => overlay.style.display = 'none', 400);
-            
-            // Retiramos la animación e intensificación
-            document.body.classList.remove('lightbox-active');
             modalAbierto = false;
         }
 
