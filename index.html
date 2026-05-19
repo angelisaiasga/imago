@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMAGO - Magia Audiovisual v1.8.4</title>
+    <title>IMAGO - Magia Audiovisual v2.5.0</title>
     <style>
         :root {
             --primary-bg: #050505;
@@ -11,6 +11,7 @@
             --neon-purple: #9d50bb;
             --text-light: #f0f0f0;
             --glass-text: rgba(240, 240, 240, 0.7);
+            --cyber-pink: #ff007f;
         }
 
         body {
@@ -47,88 +48,121 @@
         .description-text { font-size: clamp(0.9em, 1.4vw, 1.1em); line-height: 1.6; color: var(--glass-text); padding: 0 15%; margin: 0 auto 35px; font-weight: 300; max-width: 800px; }
         .description-text strong { color: var(--neon-blue); font-weight: 500; }
 
-        /* --- GALERÍA ESCRITORIO (EN LÍNEA) --- */
+        /* --- REJILLA INTERCALADA --- */
         .gallery-container { padding: 0 20px 80px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 0 auto; }
         .hexagon { 
             width: 110px; height: 125px; position: relative; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; background: #222; 
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; background: #111; 
         }
-        .hexagon img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(60%) brightness(0.7); transition: 0.4s ease; }
+        .hexagon img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(40%) brightness(0.8); transition: 0.4s ease; }
+        
+        .hexagon.video-target img { padding: 18px; box-sizing: border-box; object-fit: contain; filter: none; }
         .hexagon:hover { transform: scale(1.15) !important; z-index: 50; filter: drop-shadow(0 0 15px var(--neon-blue)); }
         .hexagon:hover img { filter: grayscale(0%) brightness(1.1); }
+        
+        .hexagon.video-target::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.45); z-index: 5; transition: 0.3s;
+        }
+        .hexagon.video-target:hover::before { background: rgba(0, 0, 0, 0.1); }
 
-        /* --- MÓVIL: GALERÍA PANAL CORREGIDA --- */
+        .hexagon.video-target::after {
+            content: "▶"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: var(--neon-blue); font-size: 1.4em; text-shadow: 0 0 12px rgba(0, 210, 255, 0.7); z-index: 10; transition: 0.3s; pointer-events: none;
+        }
+
+        /* --- RESPONSIVE MÓVIL --- */
         @media (max-width: 768px) {
-            .gallery-container { 
-                display: block; width: 320px; margin: 0 auto 100px; padding: 0; text-align: left;
-            }
-            .hexagon { 
-                display: inline-block; width: 100px; height: 115px; margin: -15px 2px;
-            }
-            /* Generamos el efecto panal real moviendo la segunda columna */
+            .gallery-container { display: block; width: 320px; margin: 0 auto 100px; padding: 0; text-align: left; }
+            .hexagon { display: inline-block; width: 100px; height: 115px; margin: -15px 2px; }
             .hexagon:nth-child(3n+2) { transform: translateY(55px); }
             .hexagon:nth-child(3n+2):hover { transform: translateY(55px) scale(1.15); }
             .card { margin-bottom: 150px; }
         }
 
-        /* --- ICONOS FLOTANTES --- */
-        .floating-magic-bar { position: fixed; z-index: 2000; display: flex; transition: all 0.4s ease; }
-        .nav-item { position: relative; display: flex; align-items: center; justify-content: center; }
-
-        @media (min-width: 769px) {
-            .floating-magic-bar { bottom: 30px; right: 30px; flex-direction: column-reverse; gap: 20px; }
-            .tooltip {
-                position: absolute; right: 85px; opacity: 0; transform: translateX(20px);
-                background: rgba(10, 10, 10, 0.95); color: white; padding: 8px 15px;
-                border-radius: 10px; border: 1px solid var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue);
-                white-space: nowrap; transition: 0.3s ease; pointer-events: none; font-size: 0.8em;
-            }
-            .nav-item:hover .tooltip { opacity: 1; transform: translateX(0); }
-        }
-
-        @media (max-width: 768px) {
-            .floating-magic-bar { bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(15px); padding: 10px 25px; border-radius: 40px; flex-direction: row; gap: 25px; border: 1px solid rgba(0, 210, 255, 0.4); width: auto; }
-            .tooltip { display: none; }
-        }
-
-        .satellite-button { width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); }
-        .float-fb { background: #1877F2; box-shadow: 0 0 10px #1877F2; }
-        .float-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%,#d6249f 60%,#285AEB 90%); box-shadow: 0 0 10px #d6249f; }
-        .satellite-button svg { width: 22px; fill: white; }
-
-        .float-wa-magic { width: 65px; height: 65px; position: relative; display: flex; justify-content: center; align-items: center; text-decoration: none; }
-        .wa-ring-outer { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px dashed var(--neon-blue); animation: rotate-cw 15s linear infinite; opacity: 0.5; }
-        .wa-ring-inner { position: absolute; width: 80%; height: 80%; border-radius: 50%; border: 2px solid var(--neon-purple); animation: rotate-acw 10s linear infinite; opacity: 0.6; }
-        .wa-core { position: absolute; width: 62%; height: 62%; border-radius: 50%; background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue)); display: flex; justify-content: center; align-items: center; box-shadow: 0 0 15px var(--neon-blue); z-index: 10; }
-        .wa-core svg { width: 25px; fill: white; }
-
-        @keyframes rotate-cw { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes rotate-acw { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-
-        /* --- LIGHTBOX Y CIERRE --- */
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(15px); display: none; justify-content: center; align-items: center; z-index: 9999; }
+        /* --- LIGHTBOX MULTIMEDIA CYBERPUNK --- */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 2, 4, 0.96); backdrop-filter: blur(20px); display: none; justify-content: center; align-items: center; z-index: 9999; }
         .overlay.active { display: flex; }
-        .overlay-img { max-width: 85%; max-height: 80%; border-radius: 15px; border: 2px solid var(--neon-blue); box-shadow: 0 0 30px var(--neon-blue); transform: scale(0.8); transition: 0.4s; }
-        .overlay.active .overlay-img { transform: scale(1); }
+
+        /* NUEVO: Botones visuales de flechas Neón */
+        .cyber-nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6); border: 1px solid var(--neon-blue); color: var(--neon-blue);
+            width: 50px; height: 60px; display: flex; justify-content: center; align-items: center;
+            font-size: 1.8em; font-weight: bold; cursor: pointer; z-index: 10020; transition: 0.3s;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2); font-family: monospace;
+        }
+        .cyber-nav-btn:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 25px var(--neon-blue); }
+        .btn-left { left: 20px; border-radius: 4px 20px 20px 4px; }
+        .btn-right { right: 20px; border-radius: 20px 4px 4px 20px; }
+
+        .video-wrapper {
+            position: relative; width: 85%; max-width: 800px; display: none;
+            border-radius: 12px; padding: 3px; background: linear-gradient(135deg, var(--neon-blue), var(--cyber-pink));
+            box-shadow: 0 0 40px rgba(0, 210, 255, 0.5); animation: borderGlow 4s linear infinite; z-index: 10001;
+        }
+
+        .video-wrapper::after {
+            content: ""; position: absolute; top: 3px; left: 3px; right: 3px; bottom: 3px;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 255, 0, 0.06));
+            background-size: 100% 4px, 6px 100%; z-index: 10003; pointer-events: none; border-radius: 10px;
+        }
+
+        .overlay-media { width: 100%; max-height: 75vh; border-radius: 10px; display: block; outline: none; }
+        #fullVideo { filter: contrast(1.15) saturate(1.25) hue-rotate(-5deg); }
+        #fullImg { max-width: 85%; max-height: 80%; border-radius: 15px; border: 2px solid var(--neon-blue); box-shadow: 0 0 30px var(--neon-blue); display: none; z-index: 10001; }
+
+        @keyframes borderGlow {
+            0% { filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.6)); }
+            50% { filter: drop-shadow(0 0 35px rgba(255, 0, 127, 0.7)); }
+            100% { filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.6)); }
+        }
+
+        .audio-alert {
+            position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%);
+            background: #000; border: 1px solid var(--neon-blue); color: var(--neon-blue);
+            padding: 10px 25px; border-radius: 4px; font-size: 0.85em; font-weight: bold;
+            cursor: pointer; box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); z-index: 10015;
+            letter-spacing: 2px; text-transform: uppercase; font-family: monospace; display: none;
+            transition: 0.3s;
+        }
+        .audio-alert:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 25px var(--neon-blue); }
 
         .close-btn { 
             position: absolute; top: 30px; right: 30px; width: 55px; height: 55px; 
             background: #000; border: 2px solid var(--neon-blue); border-radius: 50%; 
             display: flex; justify-content: center; align-items: center; cursor: pointer; 
             box-shadow: 0 0 20px var(--neon-blue); z-index: 10001; 
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            transform: scale(0) rotate(-180deg); opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); transform: scale(0) rotate(-180deg); opacity: 0;
         }
-        /* Activación del botón con efecto */
         .overlay.active .close-btn { transform: scale(1) rotate(0deg); opacity: 1; }
         .close-btn:hover { background: var(--neon-blue); transform: scale(1.1) rotate(90deg); }
-        .close-btn span { color: white; font-size: 38px; line-height: 0; margin-top: -4px; transition: 0.3s; }
-        .close-btn:hover span { color: #000; }
+        .close-btn span { color: white; font-size: 38px; line-height: 0; margin-top: -4px; }
 
+        /* --- BARRA FLOTANTE --- */
+        .floating-magic-bar { position: fixed; z-index: 2000; display: flex; transition: all 0.4s ease; }
+        .nav-item { position: relative; display: flex; align-items: center; justify-content: center; }
+        @media (min-width: 769px) {
+            .floating-magic-bar { bottom: 30px; right: 30px; flex-direction: column-reverse; gap: 20px; }
+            .tooltip { position: absolute; right: 85px; opacity: 0; transform: translateX(20px); background: rgba(10, 10, 10, 0.95); color: white; padding: 8px 15px; border-radius: 10px; border: 1px solid var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); white-space: nowrap; transition: 0.3s ease; pointer-events: none; font-size: 0.8em; }
+            .nav-item:hover .tooltip { opacity: 1; transform: translateX(0); }
+        }
+        @media (max-width: 768px) { .floating-magic-bar { bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(15px); padding: 10px 25px; border-radius: 40px; flex-direction: row; gap: 25px; border: 1px solid rgba(0, 210, 255, 0.4); width: auto; } .tooltip { display: none; } }
+        .satellite-button { width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); }
+        .float-fb { background: #1877F2; box-shadow: 0 0 10px #1877F2; }
+        .float-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%,#d6249f 60%,#285AEB 90%); box-shadow: 0 0 10px #d6249f; }
+        .satellite-button svg { width: 22px; fill: white; }
+        .float-wa-magic { width: 65px; height: 65px; position: relative; display: flex; justify-content: center; align-items: center; text-decoration: none; }
+        .wa-ring-outer { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px dashed var(--neon-blue); animation: rotate-cw 15s linear infinite; opacity: 0.5; }
+        .wa-ring-inner { position: absolute; width: 80%; height: 80%; border-radius: 50%; border: 2px solid var(--neon-purple); animation: rotate-acw 10s linear infinite; opacity: 0.6; }
+        .wa-core { position: absolute; width: 62%; height: 62%; border-radius: 50%; background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue)); display: flex; justify-content: center; align-items: center; box-shadow: 0 0 15px var(--neon-blue); z-index: 10; }
+        .wa-core svg { width: 25px; fill: white; }
+        @keyframes rotate-cw { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes rotate-acw { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
         .footer { padding-bottom: 40px; font-size: 0.75em; opacity: 0.3; }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
     <div id="particles-container"></div>
 
@@ -146,76 +180,142 @@
 
         <p class="description-text">Transformamos ideas en experiencias sensoriales. Somos expertos en <strong>producción audiovisual de alto impacto</strong>, capturando la esencia de cada momento.</p>
 
-        <div class="gallery-container">
-            <div class="hexagon" onclick="openImg('1.png')"><img src="1.png"></div>
-            <div class="hexagon" onclick="openImg('2.png')"><img src="2.png"></div>
-            <div class="hexagon" onclick="openImg('3.png')"><img src="3.png"></div>
-            <div class="hexagon" onclick="openImg('4.png')"><img src="4.png"></div>
-            <div class="hexagon" onclick="openImg('5.png')"><img src="5.png"></div>
-            <div class="hexagon" onclick="openImg('6.png')"><img src="6.png"></div>
-            <div class="hexagon" onclick="openImg('7.png')"><img src="7.png"></div>
-            <div class="hexagon" onclick="openImg('8.png')"><img src="8.png"></div>
-            <div class="hexagon" onclick="openImg('9.png')"><img src="9.png"></div>
+        <div class="gallery-container" id="mainGallery">
+            <div class="hexagon" data-src="5.png"><img src="5.png" alt="Foto 5"></div>
+            <div class="hexagon video-target" data-video="video1.mp4"><img src="Logo.png" alt="Video 1"></div>
+            <div class="hexagon" data-src="6.png"><img src="6.png" alt="Foto 6"></div>
+            <div class="hexagon video-target" data-video="video2.mp4"><img src="Logo.png" alt="Video 2"></div>
+            <div class="hexagon" data-src="7.png"><img src="7.png" alt="Foto 7"></div>
+            <div class="hexagon video-target" data-video="video3.mp4"><img src="Logo.png" alt="Video 3"></div>
+            <div class="hexagon" data-src="8.png"><img src="8.png" alt="Foto 8"></div>
+            <div class="hexagon video-target" data-video="video4.mp4"><img src="Logo.png" alt="Video 4"></div>
+            <div class="hexagon" data-src="9.png"><img src="9.png" alt="Foto 9"></div>
         </div>
         <div class="footer">© 2026 IMAGO AUDIOVISUALES</div>
     </div>
 
-    <div class="overlay" id="imageOverlay" onclick="closeImg()">
-        <div class="close-btn"><span>&times;</span></div>
-        <img src="" class="overlay-img" id="fullImg">
+    <div class="overlay" id="mediaOverlay" onclick="closeMedia()">
+        <div class="close-btn" onclick="closeMedia()"><span>&times;</span></div>
+        
+        <div class="cyber-nav-btn btn-left" id="goLeft">&lt;</div>
+        <div class="cyber-nav-btn btn-right" id="goRight">&gt;</div>
+
+        <img src="" id="fullImg" style="object-fit: contain;" onclick="event.stopPropagation()">
+        
+        <div class="video-wrapper" id="videoWrapper" onclick="event.stopPropagation()">
+            <video id="fullVideo" class="overlay-media" controls autoplay muted playsinline></video>
+            <div id="audioBtn" class="audio-alert" onclick="unmuteVideo(event)">⚡ CONECTAR AUDIO CORE ⚡</div>
+        </div>
     </div>
 
     <div class="floating-magic-bar">
         <div class="nav-item">
             <span class="tooltip">Inicia la magia por WhatsApp</span>
-            <a href="https://wa.me/528671132858?text=Hola,%20me%20gustaría%20información" class="float-wa-magic" target="_blank">
+            <a href="https://wa.me/528671132858?text=Hola%20IMAGO,%20vi%20su%20página%20web.%20Me%20interesa%20cotizar%20equipo%20audiovisual%20para%20un%20evento." class="float-wa-magic" target="_blank">
                 <div class="wa-ring-outer"></div><div class="wa-ring-inner"></div>
-                <div class="wa-core">
-                    <svg viewBox="0 0 448 512" width="25" fill="white"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-117zm-157 338.7h-.1c-34 0-67.3-9.1-96-26.3l-6.9-4.1-71.4 18.7 19-69.4-4.5-7.1c-18.9-30-28.9-64.8-28.9-100.9 0-106.1 86.4-192.6 192.6-192.6 51.4 0 99.7 20 136 56.4 36.3 36.3 56.3 84.7 56.3 136 0 106.2-86.5 192.7-192.6 192.7zm116-160.2c-6.1-3.1-36.1-17.8-41.7-19.8-5.6-2.1-9.7-3.1-13.8 3.1-4.1 6.1-15.8 19.8-19.4 23.9-3.6 4.1-7.1 4.6-13.2 1.5-6.1-3.1-25.8-9.5-49.1-30.4-18.1-16.1-30.3-36-33.9-42.1-3.6-6.1-.4-9.4 2.7-12.4 2.8-2.8 6.1-7.1 9.2-10.7 3.1-3.6 4.1-6.1 6.1-10.2 2-4.1 1-7.6-.5-10.7-1.5-3.1-13.8-33.2-18.9-45.6-5-12.1-10.1-10.4-13.8-10.6-3.6-.2-7.6-.2-11.7-.2-4.1 0-10.7 1.5-16.3 7.6-5.6 6.1-21.4 21-21.4 51.2 0 30.2 22 59.4 25.1 63.5 3.1 4.1 43.1 65.8 104.3 92.2 14.6 6.3 25.9 10.1 34.8 13 14.7 4.7 28 4 38.5 2.4 11.7-1.8 36.1-14.8 41.2-29.1 5.1-14.3 5.1-26.6 3.6-29.1-1.5-2.5-5.6-4.1-11.7-7.2z"/></svg>
-                </div>
+                <div class="wa-core"><svg viewBox="0 0 448 512" width="25" fill="white"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-117zm-157 338.7h-.1c-34 0-67.3-9.1-96-26.3l-6.9-4.1-71.4 18.7 19-69.4-4.5-7.1c-18.9-30-28.9-64.8-28.9-100.9 0-106.1 86.4-192.6 192.6-192.6 51.4 0 99.7 20 136 56.4 36.3 36.3 56.3 84.7 56.3 136 0 106.2-86.5 192.7-192.6 192.7zm116-160.2c-6.1-3.1-36.1-17.8-41.7-19.8-5.6-2.1-9.7-3.1-13.8 3.1-4.1 6.1-15.8 19.8-19.4 23.9-3.6 4.1-7.1 4.6-13.2 1.5-6.1-3.1-25.8-9.5-49.1-30.4-18.1-16.1-30.3-36-33.9-42.1-3.6-6.1-.4-9.4 2.7-12.4 2.8-2.8 6.1-7.1 9.2-10.7 3.1-3.6 4.1-6.1 6.1-10.2 2-4.1 1-7.6-.5-10.7-1.5-3.1-13.8-33.2-18.9-45.6-5-12.1-10.1-10.4-13.8-10.6-3.6-.2-7.6-.2-11.7-.2-4.1 0-10.7 1.5-16.3 7.6-5.6 6.1-21.4 21-21.4 51.2 0 30.2 22 59.4 25.1 63.5 3.1 4.1 43.1 65.8 104.3 92.2 14.6 6.3 25.9 10.1 34.8 13 14.7 4.7 28 4 38.5 2.4 11.7-1.8 36.1-14.8 41.2-29.1 5.1-14.3 5.1-26.6 3.6-29.1-1.5-2.5-5.6-4.1-11.7-7.2z"/></svg></div>
             </a>
         </div>
-        <div class="nav-item">
-            <span class="tooltip">Revisa y sigue nuestro trabajo en Instagram</span>
-            <a href="https://www.instagram.com" target="_blank" class="satellite-button float-ig"><svg viewBox="0 0 448 512" width="22" fill="white"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.9c-41.4 0-75-33.6-75-75s33.6-75 75-75 75 33.6 75 75-33.6 75-75 75zm146.1-194.3c0 14.9-12.1 27-27 27s-27-12.1-27-27 12.1-27 27-27 27 12.1 27 27zm13.9 194.3c0 99.6-81 180.6-180.6 180.6S43.5 379.1 43.5 279.5 124.5 98.9 224.1 98.9 404.7 179.9 404.7 279.5zM224.1 64C105 64 8.6 160.4 8.6 279.5s96.4 215.5 215.5 215.5 215.5-96.4 215.5-215.5S343.2 64 224.1 64z"/></svg></a>
-        </div>
-        <div class="nav-item">
-            <span class="tooltip">Revisa y sigue nuestro trabajo en Facebook</span>
-            <a href="https://www.facebook.com" target="_blank" class="satellite-button float-fb"><svg viewBox="0 0 448 512" width="22" fill="white"><path d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"/></svg></a>
-        </div>
+        <div class="nav-item"><span class="tooltip">Instagram</span><a href="https://www.instagram.com" target="_blank" class="satellite-button float-ig"><svg viewBox="0 0 448 512" width="22" fill="white"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.9c-41.4 0-75-33.6-75-75s33.6-75 75-75 75 33.6 75 75-33.6 75-75 75zm146.1-194.3c0 14.9-12.1 27-27 27s-27-12.1-27-27 12.1-27 27-27 27 12.1 27 27zm13.9 194.3c0 99.6-81 180.6-180.6 180.6S43.5 379.1 43.5 279.5 124.5 98.9 224.1 98.9 404.7 179.9 404.7 279.5zM224.1 64C105 64 8.6 160.4 8.6 279.5s96.4 215.5 215.5 215.5 215.5-96.4 215.5-215.5S343.2 64 224.1 64z"/></svg></a></div>
+        <div class="nav-item"><span class="tooltip">Facebook</span><a href="https://www.facebook.com" target="_blank" class="satellite-button float-fb"><svg viewBox="0 0 448 512" width="22" fill="white"><path d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"/></svg></a></div>
     </div>
 
     <script>
+        const elementosGaleria = Array.from(document.querySelectorAll('#mainGallery .hexagon'));
+        let indiceActual = 0;
+        let modalAbierto = false;
+
+        elementosGaleria.forEach((hex, index) => {
+            hex.addEventListener('click', () => {
+                indiceActual = index;
+                renderizarContenidoActual();
+            });
+        });
+
+        // Configuración de clics en las flechas visibles
+        document.getElementById('goLeft').addEventListener('click', (e) => { e.stopPropagation(); navegar(-1); });
+        document.getElementById('goRight').addEventListener('click', (e) => { e.stopPropagation(); navegar(1); });
+
+        function renderizarContenidoActual() {
+            const overlay = document.getElementById('mediaOverlay');
+            const fullImg = document.getElementById('fullImg');
+            const videoWrapper = document.getElementById('videoWrapper');
+            const fullVideo = document.getElementById('fullVideo');
+            const audioBtn = document.getElementById('audioBtn');
+
+            const item = elementosGaleria[indiceActual];
+            const videoSrc = item.getAttribute('data-video');
+            const imgSrc = item.getAttribute('data-src');
+
+            fullImg.style.display = 'none';
+            videoWrapper.style.display = 'none';
+            audioBtn.style.display = 'none';
+            fullVideo.pause();
+
+            if (videoSrc) {
+                fullVideo.src = videoSrc;
+                videoWrapper.style.display = 'block';
+                fullVideo.muted = true; 
+                fullVideo.play();
+                audioBtn.style.display = 'block'; 
+            } else {
+                fullImg.src = imgSrc;
+                fullImg.style.display = 'block';
+            }
+
+            overlay.style.display = 'flex';
+            setTimeout(() => overlay.classList.add('active'), 10);
+            modalAbierto = true;
+        }
+
+        function navegar(direccion) {
+            if (!modalAbierto) return;
+            indiceActual += direccion;
+            if (indiceActual >= elementosGaleria.length) indiceActual = 0;
+            if (indiceActual < 0) indiceActual = elementosGaleria.length - 1;
+            renderizarContenidoActual();
+        }
+
+        // SOLUCIÓN: stopPropagation evita que dar clic aquí cierre la pantalla
+        function unmuteVideo(event) {
+            event.stopPropagation(); 
+            const fullVideo = document.getElementById('fullVideo');
+            const audioBtn = document.getElementById('audioBtn');
+            fullVideo.muted = false;
+            audioBtn.style.display = 'none';
+        }
+
+        function closeMedia() {
+            const overlay = document.getElementById('mediaOverlay');
+            const fullVideo = document.getElementById('fullVideo');
+            fullVideo.pause();
+            fullVideo.src = "";
+            overlay.classList.remove('active');
+            setTimeout(() => overlay.style.display = 'none', 400);
+            modalAbierto = false;
+        }
+
+        // Navegación por teclado (Flechas y Esc)
+        document.addEventListener('keydown', (e) => {
+            if (!modalAbierto) return;
+            if (e.key === "ArrowRight") navegar(1);
+            if (e.key === "ArrowLeft") navegar(-1);
+            if (e.key === "Escape") closeMedia();
+        });
+
+        // Partículas estables
         function initParticles() {
             const container = document.getElementById('particles-container');
             for (let i = 0; i < 40; i++) {
-                const p = document.createElement('div');
-                p.className = 'particle';
+                const p = document.createElement('div'); p.className = 'particle';
                 const size = Math.random() * 4 + 2 + 'px';
-                p.style.width = size; p.style.height = size;
-                p.style.left = Math.random() * 100 + 'vw';
-                p.style.animationDuration = Math.random() * 8 + 4 + 's';
-                p.style.animationDelay = Math.random() * 5 + 's';
+                p.style.width = size; p.style.height = size; p.style.left = Math.random() * 100 + 'vw';
+                p.style.animationDuration = Math.random() * 8 + 4 + 's'; p.style.animationDelay = Math.random() * 5 + 's';
                 p.style.background = Math.random() > 0.5 ? '#00d2ff' : '#9d50bb';
-                p.style.boxShadow = `0 0 10px ${p.style.background}`;
-                container.appendChild(p);
+                p.style.boxShadow = `0 0 10px ${p.style.background}`; container.appendChild(p);
             }
         }
         initParticles();
-
-        function openImg(src) {
-            const overlay = document.getElementById('imageOverlay');
-            const fullImg = document.getElementById('fullImg');
-            fullImg.src = src;
-            overlay.style.display = 'flex';
-            setTimeout(() => overlay.classList.add('active'), 10);
-        }
-
-        function closeImg() {
-            const overlay = document.getElementById('imageOverlay');
-            overlay.classList.remove('active');
-            setTimeout(() => overlay.style.display = 'none', 400);
-        }
     </script>
 </body>
 </html>
